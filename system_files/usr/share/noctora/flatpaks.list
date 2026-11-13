@@ -2,7 +2,6 @@
 # Edit this list to change what every new install gets.
 
 # Media centers
-tv.kodi.Kodi
 com.github.iwalton3.jellyfin-media-player
 tv.plex.PlexHTPC
 

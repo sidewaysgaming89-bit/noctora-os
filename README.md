@@ -22,7 +22,7 @@ or a Bluetooth remote.
 | **Boots to the TV** | Logs in automatically to Plasma Bigscreen. The regular Plasma desktop is still installed as a fallback. |
 | **Media works immediately** | Full codec set and hardware video decoding (from the Universal Blue base image). |
 | **Couch control** | HDMI-CEC TV remotes, game controllers, on-screen keyboard. |
-| **App bundle** | Kodi, Jellyfin, Plex HTPC, Steam, RetroArch, Moonlight and Firefox, installed from Flathub on first boot. |
+| **App bundle** | Jellyfin, Plex HTPC, Steam, RetroArch, Moonlight and Firefox, installed from Flathub on first boot. |
 | **Unbreakable updates** | Fedora Atomic: the OS is read-only, updates download in the background and apply on reboot, and you can always roll back. Apps update daily. |
 | **Owl branding** | Boot splash, logo, "Afterdark" wallpaper and OS name. |
 
