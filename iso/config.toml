@@ -1,8 +1,23 @@
-# Installer settings for bootc-image-builder.
-# Shows the language and user-account screens so the person installing
-# creates the account that Noctora will log into automatically.
+# Installer settings for bootc-image-builder (based on Universal Blue's image-template).
+# After installing, point the system at the published image so it gets updates.
+[customizations.installer.kickstart]
+contents = """
+%post
+bootc switch --mutate-in-place --transport registry ghcr.io/sidewaysgaming89-bit/noctora-os:latest
+%end
+"""
+
 [customizations.installer.modules]
 enable = [
   "org.fedoraproject.Anaconda.Modules.Localization",
+  "org.fedoraproject.Anaconda.Modules.Storage",
+  "org.fedoraproject.Anaconda.Modules.Runtime",
+  "org.fedoraproject.Anaconda.Modules.Network",
+  "org.fedoraproject.Anaconda.Modules.Security",
+  "org.fedoraproject.Anaconda.Modules.Services",
   "org.fedoraproject.Anaconda.Modules.Users",
+  "org.fedoraproject.Anaconda.Modules.Timezone",
+]
+disable = [
+  "org.fedoraproject.Anaconda.Modules.Subscription",
 ]
