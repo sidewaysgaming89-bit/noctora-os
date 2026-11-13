@@ -1,0 +1,9 @@
+Noctora OS settings
+===================
+
+Boot to a normal login screen instead of straight into the TV interface:
+  sudo touch /etc/noctora/no-autologin
+  sudo rm -f /etc/plasmalogin.conf.d/50-noctora-autologin.conf /etc/sddm.conf.d/50-noctora-autologin.conf
+
+Re-run first-boot app installation:
+  sudo rm /var/lib/noctora/apps-installed && sudo systemctl start noctora-firstboot-apps

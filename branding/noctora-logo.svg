@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4a5aa8"/>
+      <stop offset="1" stop-color="#18214a"/>
+    </linearGradient>
+    <linearGradient id="face" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2c3a78"/>
+      <stop offset="1" stop-color="#1a2452"/>
+    </linearGradient>
+    <radialGradient id="eye" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#fff1c2"/>
+      <stop offset="0.45" stop-color="#ffc24a"/>
+      <stop offset="1" stop-color="#ff8a1f"/>
+    </radialGradient>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="9" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- body with ear tufts -->
+  <path d="M150 158 L168 64 L232 124 Q256 116 280 124 L344 64 L362 158
+           Q408 222 398 300 Q386 404 256 448 Q126 404 114 300 Q104 222 150 158 Z"
+        fill="url(#body)"/>
+
+  <!-- chest feathers -->
+  <g fill="none" stroke="#7d8fe0" stroke-width="7" stroke-linecap="round" opacity="0.45">
+    <path d="M222 352 l12 12 l12 -12"/>
+    <path d="M266 352 l12 12 l12 -12"/>
+    <path d="M244 384 l12 12 l12 -12"/>
+  </g>
+
+  <!-- face discs -->
+  <circle cx="200" cy="238" r="64" fill="url(#face)"/>
+  <circle cx="312" cy="238" r="64" fill="url(#face)"/>
+
+  <!-- glowing eyes -->
+  <g filter="url(#glow)">
+    <circle cx="200" cy="238" r="40" fill="url(#eye)"/>
+    <circle cx="312" cy="238" r="40" fill="url(#eye)"/>
+  </g>
+  <circle cx="200" cy="238" r="16" fill="#0a0f24"/>
+  <circle cx="312" cy="238" r="16" fill="#0a0f24"/>
+  <circle cx="206" cy="231" r="5" fill="#ffffff"/>
+  <circle cx="318" cy="231" r="5" fill="#ffffff"/>
+
+  <!-- beak -->
+  <path d="M256 276 L240 298 L256 324 L272 298 Z" fill="#ffb13b"/>
+</svg>

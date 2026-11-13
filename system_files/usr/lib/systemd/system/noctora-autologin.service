@@ -1,0 +1,12 @@
+[Unit]
+Description=Noctora OS: boot straight into the TV interface
+Before=display-manager.service
+After=systemd-user-sessions.service
+ConditionPathExists=!/var/lib/noctora/autologin-configured
+
+[Service]
+Type=oneshot
+ExecStart=/usr/libexec/noctora/setup-autologin
+
+[Install]
+WantedBy=graphical.target

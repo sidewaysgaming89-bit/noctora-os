@@ -1,0 +1,71 @@
+name: Build Noctora OS installer ISO
+
+# Runs automatically after every successful image build on main,
+# and can also be started by hand.
+on:
+  workflow_run:
+    workflows: ["Build Noctora OS image"]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Image tag to turn into an ISO"
+        default: "latest"
+        required: true
+
+env:
+  IMAGE_NAME: noctora-os
+
+permissions:
+  contents: read
+  packages: read
+
+jobs:
+  iso:
+    # Skip if the image build that triggered us failed.
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-24.04
+    env:
+      TAG: ${{ inputs.tag || 'latest' }}
+    steps:
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
+          df -h /
+
+      - uses: actions/checkout@v4
+
+      - name: Pull Noctora image
+        id: img
+        run: |
+          image="ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/${IMAGE_NAME}:${TAG}"
+          echo "image=${image}" >> "$GITHUB_OUTPUT"
+          echo "${{ secrets.GITHUB_TOKEN }}" | sudo podman login ghcr.io -u "${{ github.actor }}" --password-stdin
+          sudo podman pull "${image}"
+
+      - name: Build ISO with bootc-image-builder
+        run: |
+          mkdir -p output
+          sudo podman run --rm --privileged \
+            --pull=newer \
+            --security-opt label=type:unconfined_t \
+            -v ./iso/config.toml:/config.toml:ro \
+            -v ./output:/output \
+            -v /var/lib/containers/storage:/var/lib/containers/storage \
+            quay.io/centos-bootc/bootc-image-builder:latest \
+            --type anaconda-iso \
+            --rootfs btrfs \
+            "${{ steps.img.outputs.image }}"
+          sudo mv output/bootiso/install.iso "output/noctora-os-${TAG}.iso"
+          sudo sha256sum "output/noctora-os-${TAG}.iso" | sudo tee "output/noctora-os-${TAG}.iso.sha256"
+
+      - name: Upload ISO
+        uses: actions/upload-artifact@v4
+        with:
+          name: noctora-os-iso
+          path: |
+            output/noctora-os-*.iso
+            output/noctora-os-*.iso.sha256
+          retention-days: 14
+          compression-level: 0

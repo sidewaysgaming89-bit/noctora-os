@@ -1,0 +1,8 @@
+# Installer settings for bootc-image-builder.
+# Shows the language and user-account screens so the person installing
+# creates the account that Noctora will log into automatically.
+[customizations.installer.modules]
+enable = [
+  "org.fedoraproject.Anaconda.Modules.Localization",
+  "org.fedoraproject.Anaconda.Modules.Users",
+]

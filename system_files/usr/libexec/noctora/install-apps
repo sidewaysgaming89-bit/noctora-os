@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# Noctora OS: install the living-room app bundle from Flathub on first boot.
+# The list lives in /usr/share/noctora/flatpaks.list (one app ID per line).
+set -uo pipefail
+
+LIST=/usr/share/noctora/flatpaks.list
+STATE_DIR=/var/lib/noctora
+mkdir -p "${STATE_DIR}"
+
+# Fail (and let systemd retry) if Flathub can't be reached yet.
+flatpak remote-add --system --if-not-exists flathub \
+    https://dl.flathub.org/repo/flathub.flatpakrepo || exit 1
+flatpak remote-modify --system --enable flathub || true
+flatpak remote-ls --system flathub --app --columns=application >/dev/null || exit 1
+
+failed=()
+while IFS= read -r app; do
+    app="${app%%#*}"; app="${app//[[:space:]]/}"
+    [[ -z "${app}" ]] && continue
+    echo "Installing ${app}..."
+    if ! flatpak install --system --noninteractive -y flathub "${app}"; then
+        failed+=("${app}")
+    fi
+done < "${LIST}"
+
+if (( ${#failed[@]} )); then
+    echo "These apps could not be installed: ${failed[*]}"
+fi
+
+# Done, even if a single app failed; the user can add it from Discover.
+touch "${STATE_DIR}/apps-installed"

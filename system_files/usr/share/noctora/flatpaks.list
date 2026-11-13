@@ -1,0 +1,15 @@
+# Noctora OS first-boot app bundle (Flathub app IDs, one per line).
+# Edit this list to change what every new install gets.
+
+# Media centers
+tv.kodi.Kodi
+com.github.iwalton3.jellyfin-media-player
+tv.plex.PlexHTPC
+
+# Gaming
+com.valvesoftware.Steam
+org.libretro.RetroArch
+com.moonlight_stream.Moonlight
+
+# Web / streaming services
+org.mozilla.firefox

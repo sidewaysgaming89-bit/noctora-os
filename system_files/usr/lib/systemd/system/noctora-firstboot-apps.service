@@ -1,0 +1,17 @@
+[Unit]
+Description=Noctora OS: install living-room apps on first boot
+Wants=network-online.target
+After=network-online.target
+ConditionPathExists=!/var/lib/noctora/apps-installed
+# Keep retrying until the network is up.
+StartLimitIntervalSec=0
+
+[Service]
+Type=oneshot
+ExecStart=/usr/libexec/noctora/install-apps
+Restart=on-failure
+RestartSec=120
+Nice=10
+
+[Install]
+WantedBy=multi-user.target

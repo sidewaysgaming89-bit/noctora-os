@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+# Noctora OS: make the TV boot straight into Plasma Bigscreen.
+# Runs before the login screen until it has configured a user once.
+# To opt out, create /etc/noctora/no-autologin.
+set -euo pipefail
+
+STATE_DIR=/var/lib/noctora
+mkdir -p "${STATE_DIR}"
+
+if [[ -e /etc/noctora/no-autologin ]]; then
+    echo "Autologin disabled by /etc/noctora/no-autologin"
+    exit 0
+fi
+
+SESSION="$(cat /usr/lib/noctora/session 2>/dev/null || echo plasma-bigscreen-wayland.desktop)"
+
+# First normal user account (the one created in the installer).
+TV_USER="$(getent passwd | awk -F: '$3 >= 1000 && $3 < 60000 && $7 !~ /(nologin|false)$/ { print $1; exit }')"
+if [[ -z "${TV_USER}" ]]; then
+    echo "No user account yet; will try again next boot."
+    exit 0
+fi
+
+write_conf() {
+    local dir="$1"
+    mkdir -p "${dir}"
+    cat > "${dir}/50-noctora-autologin.conf" <<EOF
+# Written by Noctora OS. Delete this file and create /etc/noctora/no-autologin
+# to get a normal login screen.
+[Autologin]
+User=${TV_USER}
+Session=${SESSION}
+Relogin=true
+EOF
+}
+
+# Fedora 44+ uses Plasma Login Manager; keep SDDM working too, just in case.
+write_conf /etc/plasmalogin.conf.d
+if [[ -x /usr/bin/sddm ]]; then
+    write_conf /etc/sddm.conf.d
+fi
+
+touch "${STATE_DIR}/autologin-configured"
+echo "Autologin set: ${TV_USER} -> ${SESSION}"

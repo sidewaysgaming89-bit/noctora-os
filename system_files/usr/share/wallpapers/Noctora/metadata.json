@@ -1,0 +1,12 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "Noctora OS"
+            }
+        ],
+        "Id": "Noctora",
+        "License": "CC-BY-SA-4.0",
+        "Name": "Noctora Afterdark"
+    }
+}
