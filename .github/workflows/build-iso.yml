@@ -54,7 +54,7 @@ jobs:
           image: ${{ env.IMAGE }}
           chown: ${{ env.USER_UID }}:${{ env.USER_GID }}
           types: anaconda-iso
-          additional-args: --use-librepo=True
+          additional-args: --use-librepo=True --rootfs=btrfs
 
       - name: Upload ISO
         uses: actions/upload-artifact@v4
