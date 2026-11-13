@@ -75,7 +75,23 @@ systemctl enable noctora-flatpak-update.timer
 # Download OS updates in the background; they apply on the next reboot.
 systemctl enable rpm-ostreed-automatic.timer || true
 
-### 6. Clean up ##############################################################
+### 6. Installer compatibility ################################################
+
+# Fedora 45 keeps its repo files in /usr/share/dnf5/repos.d, but the ISO
+# builder (bootc-image-builder) only looks in /etc/yum.repos.d. Link them
+# back so the installer ISO can be built. dnf5 treats a same-named /etc file
+# as an override of the /usr/share one, so nothing is listed twice.
+if [[ -d /usr/share/dnf5/repos.d ]]; then
+    mkdir -p /etc/yum.repos.d
+    for repo in /usr/share/dnf5/repos.d/*.repo; do
+        [[ -e "${repo}" ]] || continue
+        name="$(basename "${repo}")"
+        [[ -e "/etc/yum.repos.d/${name}" ]] || ln -s "../../usr/share/dnf5/repos.d/${name}" "/etc/yum.repos.d/${name}"
+    done
+fi
+ls -l /etc/yum.repos.d
+
+### 7. Clean up ##############################################################
 
 dnf5 clean all
 rm -rf /var/cache/libdnf5 /var/log/dnf5* /tmp/*
