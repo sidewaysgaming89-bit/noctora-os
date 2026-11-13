@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Pluto TV
+Comment=Free live TV channels
+Exec=/usr/libexec/noctora/stream-app https://pluto.tv
+Icon=noctora-plutotv
+Categories=AudioVideo;Video;TV;
+StartupNotify=false

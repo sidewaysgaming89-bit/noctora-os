@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=HIDIVE
+Comment=Anime
+Exec=/usr/libexec/noctora/stream-app https://www.hidive.com
+Icon=noctora-hidive
+Categories=AudioVideo;Video;TV;
+StartupNotify=false

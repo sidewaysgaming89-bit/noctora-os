@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Netflix
+Comment=Movies and shows (1080p)
+Exec=/usr/libexec/noctora/stream-app https://www.netflix.com netflix
+Icon=noctora-netflix
+Categories=AudioVideo;Video;TV;
+StartupNotify=false

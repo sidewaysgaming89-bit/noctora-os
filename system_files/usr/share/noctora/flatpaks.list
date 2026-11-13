@@ -10,5 +10,7 @@ com.valvesoftware.Steam
 org.libretro.RetroArch
 com.moonlight_stream.Moonlight
 
-# Web / streaming services
-org.mozilla.firefox
+# Streaming: Chrome runs the Netflix, Crunchyroll, HIDIVE, Pluto TV and Tubi
+# tiles (it includes the DRM module they need). VacuumTube is YouTube's TV interface.
+com.google.Chrome
+rocks.shy.VacuumTube

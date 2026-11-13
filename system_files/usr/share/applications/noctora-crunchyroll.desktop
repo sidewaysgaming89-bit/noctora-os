@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Crunchyroll
+Comment=Anime
+Exec=/usr/libexec/noctora/stream-app https://www.crunchyroll.com
+Icon=noctora-crunchyroll
+Categories=AudioVideo;Video;TV;
+StartupNotify=false

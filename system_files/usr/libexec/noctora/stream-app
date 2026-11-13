@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# Noctora OS: open a streaming service full screen, like a TV app.
+# Usage: stream-app <url> [netflix]
+# Uses Google Chrome (Flathub), which includes the Widevine DRM module
+# that Netflix, Crunchyroll, HIDIVE etc. need.
+set -euo pipefail
+
+URL="${1:?usage: stream-app <url> [netflix]}"
+MODE="${2:-}"
+CHROME=(flatpak run com.google.Chrome)
+
+args=(--app="${URL}" --start-fullscreen --no-first-run --password-store=basic)
+
+if [[ "${MODE}" == "netflix" ]]; then
+    # Netflix serves 1080p on Linux only to Opera; it decides by the browser's
+    # user agent. Present Chrome as Opera on Linux so Netflix sends 1080p.
+    major="$("${CHROME[@]}" --version 2>/dev/null | grep -oE '[0-9]+' | head -n1 || true)"
+    major="${major:-142}"
+    opr=$(( major - 15 ))
+    args+=(--user-agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/${major}.0.0.0 Safari/537.36 OPR/${opr}.0.0.0")
+fi
+
+exec "${CHROME[@]}" "${args[@]}"

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Tubi
+Comment=Free movies and shows
+Exec=/usr/libexec/noctora/stream-app https://tubitv.com
+Icon=noctora-tubi
+Categories=AudioVideo;Video;TV;
+StartupNotify=false
